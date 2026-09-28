@@ -1,0 +1,43 @@
+server:
+  port: ${SERVER_PORT:8084}
+
+spring:
+  application:
+    name: notifications-ms
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_APP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:pedidos360}
+    password: ${RABBITMQ_PASSWORD}
+
+cors:
+  allowed-origins: ${FRONTEND_URL:http://localhost:4200}
+
+logging:
+  level:
+    org.springframework.security: INFO
+
+---
+# Este bloque SOLO se carga cuando el perfil "local" NO esta activo.
+spring:
+  config:
+    activate:
+      on-profile: "!local"
+
+azure:
+  client-id: ${AZURE_CLIENT_ID}
+  audience: ${AZURE_API_AUDIENCE:api://${AZURE_CLIENT_ID}}
